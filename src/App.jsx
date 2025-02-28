@@ -16,10 +16,11 @@ function App() {
   }
 
   return (
-    <div class="w-screen">
+    <div className="w-screen">
+      <div>Our Class</div>
       <div>Selected Square {selectedSquare}</div>
-      <section class="flex flex-col items-center">
-        <div class="w-full flex justify-around">
+      <section className="flex flex-col items-center">
+        <div className="w-full flex justify-around">
           <Player playerName="Player 1" symbol="X"/>
           <Player playerName="Player 2" symbol="O"/>
         </div>
