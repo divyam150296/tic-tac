@@ -8,6 +8,7 @@ export default function PlayingBoard ({ eventByUser }) {
 
     function playerClicked () {
         eventByUser()
+        console.log('hello')
     }
 
     return (
