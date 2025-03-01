@@ -7,12 +7,32 @@ import { useState } from 'react';
 
 
 function App() {
-  
-  const [selectedSquare, setSelectedPlayer] = useState('X') 
 
-  function changeTurn () {
-    setSelectedPlayer(olderValue => olderValue === 'X' ? '0': 'X')
-    console.log(selectedSquare, 'updating the data')
+  const playerX = 'X' 
+  const playerY = 'O'
+  const [selectedSquare, setSelectedPlayer] = useState(playerX ) 
+  const [playerTurns, updatePlayerTurns] = useState([])
+
+  function changeTurn (row, columns) {
+    setSelectedPlayer(olderValue => olderValue === playerX  ? playerY: playerX )
+    updatePlayerTurns(previousState => {
+
+      let defaultUser = playerX
+
+      if (playerTurns.length) {
+        if (playerTurns[0].player === playerX) {
+          defaultUser = playerY
+        } else {
+          defaultUser =playerX
+        }
+      }
+      const updatedTurns = [
+        {box: { row, columns}, player: defaultUser},
+        ...previousState
+      ]
+      return updatedTurns
+
+    })
   }
 
   return (
@@ -24,7 +44,7 @@ function App() {
           <Player playerName="Player 1" symbol="X"/>
           <Player playerName="Player 2" symbol="O"/>
         </div>
-        <PlayingBoard eventByUser={changeTurn} />
+        <PlayingBoard eventByUser={changeTurn}  playerLog={playerTurns} />
         <UserLogs />
       </section>
     </div>
