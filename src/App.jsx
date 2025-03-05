@@ -10,11 +10,15 @@ function App() {
 
   const playerX = 'X' 
   const playerY = 'O'
-  const [selectedSquare, setSelectedPlayer] = useState(playerX ) 
+  // const [selectedSquare, setSelectedPlayer] = useState(playerX ) 
   const [playerTurns, updatePlayerTurns] = useState([])
+  let activePlayer = playerX
+
+  if (playerTurns.length && playerTurns[0].player === playerX) {
+    activePlayer = playerY
+  }
 
   function changeTurn (row, columns) {
-    setSelectedPlayer(olderValue => olderValue === playerX  ? playerY: playerX )
     updatePlayerTurns(previousState => {
 
       let defaultUser = playerX
@@ -37,15 +41,13 @@ function App() {
 
   return (
     <div className="w-screen">
-      <div>Our Class</div>
-      <div>Selected Square {selectedSquare}</div>
       <section className="flex flex-col items-center">
         <div className="w-full flex justify-around">
-          <Player playerName="Player 1" symbol="X"/>
-          <Player playerName="Player 2" symbol="O"/>
+          <Player playerName="Player 1" symbol="X" activePlayer={activePlayer}/>
+          <Player playerName="Player 2" symbol="O" activePlayer={activePlayer}/>
         </div>
         <PlayingBoard eventByUser={changeTurn}  playerLog={playerTurns} />
-        <UserLogs />
+        <UserLogs playerTurns={playerTurns}/>
       </section>
     </div>
   )
