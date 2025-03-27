@@ -2,6 +2,7 @@
 import './index.css';
 import Player from './components/Player.jsx'
 import PlayingBoard from './components/PlayingBoard.jsx'
+import TimerSet from './components/TimerSet.jsx'
 import UserLogs from './components/UserLogs.jsx'
 import { useState } from 'react';
 
@@ -48,9 +49,10 @@ function App() {
         </div>
         <PlayingBoard eventByUser={changeTurn}  playerLog={playerTurns} />
         <UserLogs playerTurns={playerTurns}/>
+        <TimerSet />
       </section>
     </div>
   )
 }
-
+ 
 export default App;
