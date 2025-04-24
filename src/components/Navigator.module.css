@@ -1,0 +1,12 @@
+.link a {
+    color: rgb(253, 240, 224);
+}
+
+.link a.hover{
+    color: bisque;
+}
+
+.link a.active {
+    color: bisque;
+    text-decoration: underline;
+}

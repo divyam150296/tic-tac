@@ -5,26 +5,29 @@ import PointsDialog from './PointsDialog'
 export default function TimerCard({ cardData }) {
     let timer = useRef()
     let dialog = useRef()
-
-    console.log(cardData, 'card data length')
-
-    const [timerStatus, updateTimerStatus] = useState(false)
-    const [playerLost, setPlayerLostStatus] = useState(false)
     
+    const [timeRemaining, setRemainingTime] = useState(cardData.time * 1000)
+
+    const timerIsActive = timeRemaining > 0 && timeRemaining < (cardData.time * 1000)
+
+    const lostStatus = timeRemaining < 0
+    console.log(lostStatus)
+
+    if (timeRemaining <= 0) {
+        dialog.current.showModal()
+        clearInterval(timer.current) 
+    }
 
     const startTimer = () => {
-        timer.current = setTimeout(() => {
-            setPlayerLostStatus(true)
-            console.log(cardData.time, 'timer data')
-            dialog.current.showModal()
-        }, cardData.time * 1000)
-        updateTimerStatus(true)
+        console.log('timer starting')
+        timer.current = setInterval(() => {
+            setRemainingTime(previousTime => previousTime - 10)
+        }, 10)
     }
  
     const stopTimer = () => {
-        console.log('closing timer', timer.current)
-        clearTimeout(timer.current)
-        updateTimerStatus(false)
+        clearInterval(timer.current)
+        setRemainingTime(cardData.time * 1000)
     }
 
     return (
@@ -33,10 +36,10 @@ export default function TimerCard({ cardData }) {
             <div className='border-2 border-white rounded-xl' key={cardData.title}>
                 <div>{cardData.title}</div>
                 timer : {timer.current}
-                {cardData.time && <div>{cardData.time} {cardData.time > 1 ? 'seconds' : 'second'}</div>}
-                <div>Level : {cardData.level}-- {timerStatus ? 'he;lo': 'gone'}</div>
-                <button onClick={ timerStatus ? stopTimer : startTimer }>{timerStatus ? '| Click on me to stop |' : '| Click on me to start |'}</button>
-                {playerLost && 'You lost the game'}
+                {cardData.time && <div>{cardData.time} {cardData.time > 1 ? 'seconds' : 'second'}</div>} { timerIsActive }
+                <div>Level : {cardData.level}-- {timerIsActive ? 'he;lo': 'gone'}</div>
+                <button onClick={ timerIsActive ? stopTimer : startTimer }>{timerIsActive ? '| Click on me to stop |' : '| Click on me to start |'}</button>
+                {lostStatus && 'You lost the game'}
             </div>
         </>
     )
